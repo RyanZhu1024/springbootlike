@@ -36,3 +36,10 @@ public class Configuration {
     }
 }
 ```
+
+###Test
+1. run the main method
+2. curl http://localhost:8080/test
+
+###Dependencies
+1. GSON for json parsing
