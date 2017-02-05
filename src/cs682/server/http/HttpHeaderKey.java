@@ -4,7 +4,14 @@ package cs682.server.http;
  * Created by RyanZhu on 10/6/15.
  */
 public enum HttpHeaderKey {
-    ACCEPT("Accept"), LOCATION("Location"), USER_AGENT("User-Agent"), CONTENT_TYPE("Content-Type"), HOST("Host"), METHOD("Method"), Content_LENGTH("Content-Length");
+    ACCEPT("Accept"),
+    LOCATION("Location"),
+    USER_AGENT("User-Agent"),
+    CONTENT_TYPE("Content-Type"),
+    HOST("Host"), METHOD("Method"),
+    Content_LENGTH("Content-Length"),
+    Cache_Control("cache-control");
+
 
     private final String key;
 

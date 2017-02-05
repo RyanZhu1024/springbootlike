@@ -70,12 +70,18 @@ public class Router {
                     if (method.isAnnotationPresent(RequestMapping.class)) {
                         String path = method.getAnnotation(RequestMapping.class).value();
                         HttpMethod httpMethod = method.getAnnotation(RequestMapping.class).method();
+                        if (!path.startsWith("/")) {
+                            path = "/" + path;
+                        }
                         HttpReqKey httpReqKey = HttpReqKey.getHttpReqKeyInstance(controllerName + path, httpMethod);
                         System.out.println("loading method " + method.getName());
                         routers.put(httpReqKey, method);
                     }
                 }
             }
+        }
+        for (HttpReqKey httpReqKey : routers.keySet()) {
+            System.out.println(httpReqKey.getPath() + " " + routers.get(httpReqKey));
         }
         //init router
         Constructor constructor = Router.class.getDeclaredConstructor(Map.class, Map.class);

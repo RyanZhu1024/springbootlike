@@ -9,7 +9,7 @@ import java.util.Set;
  */
 public abstract class AbstractHttpObject {
     private Map<String, String> header;
-    private String body;
+    private Object body;
     private String httpVersion;
 
     public String getHeader(String key) {
@@ -34,11 +34,11 @@ public abstract class AbstractHttpObject {
         }
     }
 
-    public String getBody() {
+    public Object getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(Object body) {
         this.body = body;
     }
 

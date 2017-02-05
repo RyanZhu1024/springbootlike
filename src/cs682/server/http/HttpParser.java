@@ -1,5 +1,6 @@
 package cs682.server.http;
 
+import com.google.gson.Gson;
 import cs682.server.exceptions.BadRequestException;
 import cs682.server.exceptions.UnsupportedHttpMethodException;
 
@@ -52,9 +53,9 @@ public class HttpParser {
                     throw new UnsupportedHttpMethodException();
                 }
                 request.setHttpMethod(HttpMethod.valueOf(eles[0]));
-                request.setPath(eles[1]);
+                request.setPath(eles[1].split("\\?")[0]);
                 request.setHttpVersion(eles[2]);
-                request.setParameters(readQueryStr(request.getPath()));
+                request.setParameters(readQueryStr(eles[1]));
             }
         }
     }
@@ -63,7 +64,7 @@ public class HttpParser {
         Map<String, String> map = new HashMap<>();
         if (path.contains("?")) {
             String queryStr = path.split("\\?")[1];
-            String[] queryArr = queryStr.split(";");
+            String[] queryArr = queryStr.split("&");
             for (String s : queryArr) {
                 String[] item = s.split("=");
                 map.put(item[0], item[1]);
@@ -72,7 +73,7 @@ public class HttpParser {
         return map;
     }
 
-    public static String generateResponse(HttpResponse responseObj) {
+    static String generateResponse(HttpResponse responseObj) {
         StringBuilder resBuilder = new StringBuilder();
         resBuilder.append("HTTP/1.1").append(" ");
         resBuilder.append(responseObj.getCode().getCode()).append(" ").append(responseObj.getCode().getValue());
@@ -82,7 +83,9 @@ public class HttpParser {
         }
         resBuilder.append("\n");
         if (responseObj.getBody() != null) {
-            resBuilder.append(responseObj.getBody());
+            Gson gson = new Gson();
+            String json = gson.toJson(responseObj.getBody());
+            resBuilder.append(json);
         }
         return resBuilder.toString();
     }
